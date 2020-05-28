@@ -1,3 +1,5 @@
 .env
 .idea
 runtime/logs
+runtime/hyperf.pid
+runtime/container
