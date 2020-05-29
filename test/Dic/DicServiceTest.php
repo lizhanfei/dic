@@ -20,7 +20,7 @@ class DicServiceTest extends HttpTestCase
 
     public function testSave1()
     {
-        $res = $this->getContainerWithSaveTrue()->get(\App\Service\Dic\DicServiceImplV1::class)->add('中国', 'shop', 'main');
+        $res = $this->getContainerWithSaveTrue()->get(\App\Service\Dic\PersistentServiceImplV1::class)->add('中国', 'shop', 'main');
 
         $this->assertEquals(true, $res);
     }
@@ -40,7 +40,7 @@ class DicServiceTest extends HttpTestCase
 
     public function testSave2()
     {
-        $res = $this->getContainerWithSaveFalse()->get(\App\Service\Dic\DicServiceImplV1::class)->add('中国', 'shop', 'main');
+        $res = $this->getContainerWithSaveFalse()->get(\App\Service\Dic\PersistentServiceImplV1::class)->add('中国', 'shop', 'main');
 
         $this->assertEquals(false, $res);
     }
@@ -61,7 +61,7 @@ class DicServiceTest extends HttpTestCase
 
     public function testSave3()
     {
-        $res = $this->getContainerWithgetOne()->get(\App\Service\Dic\DicServiceImplV1::class)->add('中国', 'shop', 'main');
+        $res = $this->getContainerWithgetOne()->get(\App\Service\Dic\PersistentServiceImplV1::class)->add('中国', 'shop', 'main');
 
         $this->assertEquals(true, $res);
     }
