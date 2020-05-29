@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace HyperfTest\Dic;
 
-use App\Dao\Word\WordDao;
 use HyperfTest\HttpTestCase;
 use Hyperf\Di\Container;
 use Hyperf\Utils\ApplicationContext;
@@ -30,11 +29,15 @@ class DicServiceTest extends HttpTestCase
     protected function getContainerWithSaveTrue()
     {
         $container = ApplicationContext::getContainer();
-        $wordDaoStub = $this->createMock(WordDao::class);
+        $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
+        $wordDaoStub->method('getOne')->willReturn(null);
         $wordDaoStub->method('save')->willReturn(true);
         $container->getDefinitionSource()->addDefinition(\App\Dao\Word\WordDao::class, function () use ($wordDaoStub) {
             return $wordDaoStub;
         });
+        $dao = $container->get(\App\Dao\Word\WordDao::class)->getOne([]);
+        var_dump($dao);
+        var_dump("success  ");
         return $container;
     }
 
@@ -50,7 +53,7 @@ class DicServiceTest extends HttpTestCase
     protected function getContainerWithSaveFalse()
     {
         $container = ApplicationContext::getContainer();
-        $wordDaoStub = $this->createMock(WordDao::class);
+        $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
         $wordDaoStub->method('getOne')->willReturn(null);
         $wordDaoStub->method('save')->willReturn(false);
         $container->getDefinitionSource()->addDefinition(\App\Dao\Word\WordDao::class, function () use ($wordDaoStub) {
@@ -71,7 +74,7 @@ class DicServiceTest extends HttpTestCase
     protected function getContainerWithgetOne()
     {
         $container = ApplicationContext::getContainer();
-        $wordDaoStub = $this->createMock(WordDao::class);
+        $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
         $wordDaoStub->method('getOne')->willReturn(new Word());
         $wordDaoStub->method('save')->willReturn(false);
         $container->getDefinitionSource()->addDefinition(\App\Dao\Word\WordDao::class, function () use ($wordDaoStub) {
