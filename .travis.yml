@@ -1,4 +1,17 @@
 language: php
+
+matrix:
+  include:
+    - php: 7.2
+      env: SW_VERSION="4.5.1"
+
 php:
   - '7.2'
-script: composer test -- --filter=testSave1
+
+install:
+  - cd $TRAVIS_BUILD_DIR
+  - bash .travis/swoole.install.sh
+  - phpenv config-add .travis/ci.ini
+
+script:
+  - composer test -- --filter=testSave1
