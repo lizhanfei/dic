@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Util\Response;
 use App\Service\Dic\PersistentService;
-use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Contract\ResponseInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * 词典维护
@@ -16,10 +18,17 @@ use Hyperf\Di\Annotation\Inject;
 class DicController extends AbstractController
 {
     /**
-     * @Inject
      * @var PersistentService
      */
     private $persistentService;
+
+    public function __construct(PersistentService $persistentService, ContainerInterface $container, RequestInterface $request, ResponseInterface $response)
+    {
+        $this->persistentService = $persistentService;
+        $this->container = $container;
+        $this->request = $request;
+        $this->response = $response;
+    }
 
     /**
      * 添加词语
@@ -57,9 +66,9 @@ class DicController extends AbstractController
         }
 
         if ($this->persistentService->del($word, $fromSystem, $type)) {
-            return $this->response->json(Response::arr(200, '保存成功'));
+            return $this->response->json(Response::arr(200, '移除成功'));
         } else {
-            return $this->response->json(Response::arr(500, '保存词语失败'));
+            return $this->response->json(Response::arr(500, '移除词语失败'));
         }
     }
 }

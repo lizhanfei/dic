@@ -33,6 +33,8 @@ class WordMemoryTest extends HttpTestCase
         }
         $this->assertArraySubset(['长白山', '鸭绿江'], $resultDci);
 
+        $this->assertTrue($wordMemory->del('长白山', 'anotexisttype'));
+        $this->assertEquals([], $wordMemory->findWord('长', 'anotexisttype'));
 
         $wordMemory->del('长白山', $wordType);
         $match = $wordMemory->match('黑白江长白山流啊流江里的鸭绿江水暖阿暖', $wordType);

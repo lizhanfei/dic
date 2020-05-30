@@ -6,15 +6,24 @@ namespace App\Controller;
 
 use App\Service\Word\WordService;
 use App\Util\Response;
-use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Contract\ResponseInterface;
+use Psr\Container\ContainerInterface;
 
 class WordController extends AbstractController
 {
     /**
-     * @Inject
      * @var WordService
      */
     private $wordService;
+
+    public function __construct(WordService $wordService, ContainerInterface $container, RequestInterface $request, ResponseInterface $response)
+    {
+        $this->wordService = $wordService;
+        $this->container = $container;
+        $this->request = $request;
+        $this->response = $response;
+    }
 
     public function findWord()
     {
