@@ -30,7 +30,7 @@ class WordMemory implements WordStorage
         if (!isset(static::$triTree[$wordType])) {
             return true;
         }
-        return static::$triTree[$this->getTreeName($wordType)]->delete($word);
+        return static::$triTree[$wordType]->delete($word);
     }
 
     public function clear(string $wordType): bool
