@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HyperfTest\util\dic;
+namespace HyperfTest\Util\dic;
 
 use HyperfTest\HttpTestCase;
 use App\Util\Dic\WordMemory;

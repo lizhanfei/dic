@@ -14,15 +14,19 @@ use Hyperf\Contract\ConfigInterface;
 class AfterWorkStartListener implements ListenerInterface
 {
     /**
-     * @Inject
      * @var DicService
      */
     private $dicService;
     /**
-     * @Inject
      * @var ConfigInterface
      */
     private $applicationConfig;
+
+    public function __construct(DicService $dicService, ConfigInterface $applicationConfig)
+    {
+        $this->dicService = $dicService;
+        $this->applicationConfig = $applicationConfig;
+    }
 
     public function listen(): array
     {
@@ -46,9 +50,10 @@ class AfterWorkStartListener implements ListenerInterface
         $timeTick = $this->applicationConfig->get("release_dic_time");
         $timeTick = intval($timeTick);
         $timeTick <= 0 && $timeTick = 600000;//默认十分钟
-        Timer::tick($timeTick, function () use ($event) {
+        $timeId = Timer::tick($timeTick, function () use ($event) {
             $this->dicService->releaseDb2Dic();
         });
+        return $timeId;
     }
 
     /**
