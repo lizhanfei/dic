@@ -1,4 +1,6 @@
-## 高性能词语匹配和词语联想
+
+# 高性能词语匹配和词语联想
+[![travis-ci](https://travis-ci.com/lizhanfei/dic.svg?branch=master)](https://travis-ci.com/)
 
 ### 应用场景
     1. 可以输入的句子中是否存下词库中的词，可以用于敏感词、优质词匹配
