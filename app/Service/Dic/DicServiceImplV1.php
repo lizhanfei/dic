@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Dic;
 
-use App\Model\Word;
 use App\Util\Dic\WordStorage;
 use App\Util\WordType;
-use Hyperf\Di\Annotation\Inject;
 use App\Dao\Word\WordDao;
 use Hyperf\RpcServer\Annotation\RpcService;
 
@@ -19,15 +17,19 @@ use Hyperf\RpcServer\Annotation\RpcService;
 class DicServiceImplV1 implements DicService
 {
     /**
-     * @Inject
      * @var WordStorage
      */
     private $wordStorage;
     /**
-     * @Inject
      * @var WordDao
      */
     private $wordDao;
+
+    public function __construct(WordStorage $wordStorage, WordDao $wordDao)
+    {
+        $this->wordStorage = $wordStorage;
+        $this->wordDao = $wordDao;
+    }
 
     public function db2Dic(): bool
     {

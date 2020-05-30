@@ -23,6 +23,11 @@ class PersistentServiceImplV1 implements PersistentService
     private $wordDao;
 
 
+    public function __construct(WordDao $wordDao)
+    {
+        $this->wordDao = $wordDao;
+    }
+
     /**
      * 增加词库
      * @param string $word
@@ -62,7 +67,10 @@ class PersistentServiceImplV1 implements PersistentService
         $where['word'] = $word;
         $where['from_system'] = $fromSystem;
         $where['type'] = $type;
-        $wordModel = Word::where($where)->first();
+        $wordModel = $this->wordDao->getOne($where);
+        if (empty($wordModel)) {
+            return true;
+        }
         return $this->wordDao->delOne($wordModel);
     }
 }
