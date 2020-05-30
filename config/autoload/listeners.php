@@ -11,5 +11,6 @@ declare(strict_types=1);
  */
 
 return [
-    App\Listener\AfterWorkStartListener::class
+    //todo 这里生产部署的时候要去掉注释，因为ci执行单元测试的原因，这里暂时注释
+    //App\Listener\AfterWorkStartListener::class
 ];
