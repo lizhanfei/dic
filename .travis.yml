@@ -15,8 +15,6 @@ install:
 
 script:
   - composer test -- --filter=testSave1
-  - composer test -- --filter=testSave2
-  - composer test -- --filter=testSave3
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
