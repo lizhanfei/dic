@@ -15,3 +15,5 @@ install:
 
 script:
   - composer test -- --filter=testSave1
+  - composer test -- --filter=testSave2
+  - composer test -- --filter=testSave3
