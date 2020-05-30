@@ -6,7 +6,6 @@ namespace HyperfTest\Dic;
 
 use HyperfTest\HttpTestCase;
 use Hyperf\Di\Container;
-use Hyperf\Utils\ApplicationContext;
 use Mockery;
 use App\Model\Word;
 

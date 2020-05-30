@@ -6,7 +6,6 @@ namespace App\Service\Sentence;
 
 use App\Util\Dic\WordStorage;
 use App\Util\WordType;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\RpcServer\Annotation\RpcService;
 
 /**
@@ -17,10 +16,14 @@ use Hyperf\RpcServer\Annotation\RpcService;
 class SentenceServiceImplV1 implements SentenceService
 {
     /**
-     * @Inject
      * @var WordStorage
      */
     private $wordStorage;
+
+    public function __construct(WordStorage $wordStorage)
+    {
+        $this->wordStorage = $wordStorage;
+    }
 
     public function match(string $sendtence, string $fromSystem, string $type): array
     {

@@ -6,7 +6,6 @@ namespace App\Service\Word;
 
 use App\Util\Dic\WordStorage;
 use App\Util\WordType;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\RpcServer\Annotation\RpcService;
 
 /**
@@ -17,10 +16,14 @@ use Hyperf\RpcServer\Annotation\RpcService;
 class WordServiceImplV1 implements WordService
 {
     /**
-     * @Inject
      * @var WordStorage
      */
     private $wordStorage;
+
+    public function __construct(WordStorage $wordStorage)
+    {
+        $this->wordStorage = $wordStorage;
+    }
 
     public function find(string $word, string $fromSystem, string $type): array
     {
