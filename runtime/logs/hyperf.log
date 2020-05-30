@@ -14689,3 +14689,4 @@
 [2020-05-28 14:08:44] sql.INFO: [8.84] select * from `dic_word` limit 1000 offset 20000 [] []
 [2020-05-28 14:08:44] sql.INFO: [10.04] select * from `dic_word` limit 1000 offset 21000 [] []
 [2020-05-28 14:08:44] sql.INFO: [8.07] select * from `dic_word` limit 1000 offset 22000 [] []
+[2020-05-30 09:44:10] sql.INFO: [1.06] select * from `dic_word` where (`word` = '中国' and `from_system` = 'shop' and `type` = 'main') limit 1 [] []

@@ -35,9 +35,6 @@ class DicServiceTest extends HttpTestCase
         $container->getDefinitionSource()->addDefinition(\App\Dao\Word\WordDao::class, function () use ($wordDaoStub) {
             return $wordDaoStub;
         });
-        $dao = $container->get(\App\Dao\Word\WordDao::class)->getOne([]);
-        var_dump($dao);
-        var_dump("success  ");
         return $container;
     }
 
