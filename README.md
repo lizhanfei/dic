@@ -1,7 +1,7 @@
 
 # 高性能词语匹配和词语联想
 [![Build Status](https://travis-ci.com/lizhanfei/dic.svg?branch=master)](https://travis-ci.com/lizhanfei/dic)
-
+[![codecov](https://codecov.io/gh/lizhanfei/dic/branch/master/graph/badge.svg)](https://codecov.io/gh/lizhanfei/dic)
 ### 应用场景
     1. 可以输入的句子中是否存下词库中的词，可以用于敏感词、优质词匹配
     2. 可以通过输入的词语查找所有词库中相关的词，可以用于关键词联想
