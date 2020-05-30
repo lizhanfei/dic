@@ -44,6 +44,9 @@ class AfterWorkStartListenerTest extends HttpTestCase
         $listener = new AfterWorkStartListener($dicService, $config);
         $timeId = $listener->process($this->getEventObject());
         $this->assertTrue(Timer::exists($timeId));
+
+        $timeId = $listener->process($this->getEventObject2());
+        $this->assertTrue(Timer::exists($timeId));
         Timer::clearAll();
     }
 
@@ -55,6 +58,23 @@ class AfterWorkStartListenerTest extends HttpTestCase
     {
         $objectArr = [];
         $objectArr['workerId'] = 1;
+        $objectArr['server'] = [];
+        $objectArr['server']['setting'] = null;
+
+        $result = json_decode(json_encode($objectArr));
+        $result->server->setting = ['worker_num' => 2, 'task_worker_num' => 0];
+
+        return $result;
+    }
+
+    /**
+     * 获取事件对象，模拟当前是3号进程的情况
+     * @return mixed
+     */
+    private function getEventObject2()
+    {
+        $objectArr = [];
+        $objectArr['workerId'] = 3;
         $objectArr['server'] = [];
         $objectArr['server']['setting'] = null;
 

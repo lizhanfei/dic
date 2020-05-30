@@ -84,7 +84,7 @@ class DicControllerTest extends HttpTestCase
         $request = $this->createMock(\Hyperf\HttpServer\Contract\RequestInterface::class);
         $request->method('input')->willReturn('');
         $dicController = new DicController($persistentServiceStub, $container, $request, $response);
-        $result = $dicController->addWord();
+        $result = $dicController->removeWord();
         $this->assertEquals('{"code":500,"msg":"\u53c2\u6570\u9519\u8bef","data":[]}', $result->getBody());
 
     }
