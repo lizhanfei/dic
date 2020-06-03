@@ -11,6 +11,24 @@
     2. 词库2W+的基础上，wrk测试600并发，30S压测；
         19款macos，8核心；框架开启8进程；qps可以接近7W/s
     
+### 压测数据
+    程序宿主机：6C16G 普通pc机 
+    网络：局域网
+
+command: wrk -t 8 -c 600 -d 30s -s dic_sentence_matych.lua  http://192.168.8.52:9501/dic/sentence/match
+```shell
+Running 30s test @ http://192.168.8.52:9501/dic/sentence/match
+  8 threads and 600 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    13.25ms   63.97ms   1.01s    98.79%
+    Req/Sec     4.32k     1.43k    7.10k    60.75%
+  1033454 requests in 30.10s, 203.03MB read
+  Socket errors: connect 355, read 0, write 0, timeout 0
+Requests/sec:  34330.61
+Transfer/sec:      6.74MB
+```
+
+    
 ### 实现说明
     1. 核心词典匹配字典树，借助[abelzhou/php-trie-tree](https://packagist.org/packages/abelzhou/php-trie-tree)实现。
     2. 每个worker进程启动时，将词典从数据库中加载到内存里，建立一个字典树，做内存级词典缓存。
@@ -24,5 +42,6 @@
 
 ### sql
     数据库字典在./sql 目录下。导入数据库即可。
-    
-### 未完待续
+   
+### 注意
+    1. 词典加载可能会暂用比较多的内存，尤其是在字典重建时，内存峰值会是平时的两倍，请注意内存的分配
