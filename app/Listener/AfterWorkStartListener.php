@@ -8,8 +8,10 @@ use App\Service\Dic\DicService;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Framework\Event\AfterWorkerStart;
+use Hyperf\Logger\Logger;
 use Swoole\Timer;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Logger\LoggerFactory;
 
 class AfterWorkStartListener implements ListenerInterface
 {
@@ -21,11 +23,16 @@ class AfterWorkStartListener implements ListenerInterface
      * @var ConfigInterface
      */
     private $applicationConfig;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
 
-    public function __construct(DicService $dicService, ConfigInterface $applicationConfig)
+    public function __construct(DicService $dicService, ConfigInterface $applicationConfig, LoggerFactory $loggerFactory)
     {
         $this->dicService = $dicService;
         $this->applicationConfig = $applicationConfig;
+        $this->logger = $loggerFactory->get('afterworkerListener', 'default');
     }
 
     public function listen(): array
@@ -42,16 +49,21 @@ class AfterWorkStartListener implements ListenerInterface
      */
     public function process(object $event)
     {
+        $timeStart = microtime(true);
+        $this->logger->info("worker{{$event->workerId}}词典初始化开始");
         if (!$this->ifTaskProcess($event->workerId, $event->server->setting['worker_num'], $event->server->setting['task_worker_num'])) {
             //初始化词典到告诉缓存
             $this->dicService->db2Dic();
         }
+        $this->logger->info("worker{{$event->workerId}}词典初始化完成,耗时：". (microtime(true) - $timeStart). 's,峰值内存：'.(memory_get_peak_usage()/1024/1024)."M");
         //注册定时器，每隔一段时间更新内存词典数据
         $timeTick = $this->applicationConfig->get("release_dic_time");
         $timeTick = intval($timeTick);
         $timeTick <= 0 && $timeTick = 600000;//默认十分钟
         $timeId = Timer::tick($timeTick, function () use ($event) {
+            $this->logger->info("worker{{$event->workerId}}词典更新开始");
             $this->dicService->releaseDb2Dic();
+            $this->logger->info("worker{{$event->workerId}}词典更新完成");
         });
         return $timeId;
     }

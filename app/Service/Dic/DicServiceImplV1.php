@@ -34,7 +34,7 @@ class DicServiceImplV1 implements DicService
     public function db2Dic(): bool
     {
         $page = 1;
-        $pageNum = 1000;
+        $pageNum = 2000;
         while (true) {
             $wordModelList = $this->wordDao->list([], ($page - 1) * $pageNum, $pageNum);
             if (0 == count($wordModelList)) {
@@ -58,7 +58,7 @@ class DicServiceImplV1 implements DicService
         $prefix = 'replace';
         $wordType = [];
         $page = 1;
-        $pageNum = 1000;
+        $pageNum = 2000;
         while (true) {
             $wordModelList = $this->wordDao->list([], ($page - 1) * $pageNum, $pageNum);
             if (0 == count($wordModelList)) {
