@@ -26,8 +26,11 @@ class AfterWorkStartListenerTest extends HttpTestCase
     {
         $dicService = $this->createMock(\App\Service\Dic\DicService::class);
         $config = $this->createMock(\Hyperf\Contract\ConfigInterface::class);
-
-        $listener = new AfterWorkStartListener($dicService, $config);
+        $loggerFactory = $this->createMock(\Hyperf\Logger\LoggerFactory::class);
+        $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $logger->method('info')->willReturn(true);
+        $loggerFactory->method('get')->willReturn($logger);
+        $listener = new AfterWorkStartListener($dicService, $config, $loggerFactory);
 
         $this->assertEquals([
             AfterWorkerStart::class,
@@ -40,8 +43,12 @@ class AfterWorkStartListenerTest extends HttpTestCase
         $dicService->method('db2Dic')->willReturn(true);
         $config = $this->createMock(\Hyperf\Contract\ConfigInterface::class);
         $config->method('get')->willReturn(600000);
+        $loggerFactory = $this->createMock(\Hyperf\Logger\LoggerFactory::class);
+        $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $logger->method('info')->willReturn(true);
+        $loggerFactory->method('get')->willReturn($logger);
 
-        $listener = new AfterWorkStartListener($dicService, $config);
+        $listener = new AfterWorkStartListener($dicService, $config, $loggerFactory);
         $timeId = $listener->process($this->getEventObject());
         $this->assertTrue(Timer::exists($timeId));
 
