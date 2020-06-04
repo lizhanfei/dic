@@ -14,7 +14,7 @@
 ### 压测数据
     程序宿主机：6C16G 普通pc机 
     网络：局域网
-
+    worker num: 6
 command: wrk -t 8 -c 600 -d 30s -s dic_sentence_matych.lua  http://192.168.8.52:9501/dic/sentence/match
 ```shell
 Running 30s test @ http://192.168.8.52:9501/dic/sentence/match
