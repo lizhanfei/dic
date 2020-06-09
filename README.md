@@ -17,17 +17,16 @@
     worker num: 6
 command: wrk -t 8 -c 600 -d 30s -s dic_sentence_matych.lua  http://192.168.8.52:9501/dic/sentence/match
 ```shell
-Running 30s test @ http://192.168.8.52:9501/dic/sentence/match
+Running 1m test @ http://192.168.8.52:9501/dic/sentence/match
   8 threads and 600 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    13.25ms   63.97ms   1.01s    98.79%
-    Req/Sec     4.32k     1.43k    7.10k    60.75%
-  1033454 requests in 30.10s, 203.03MB read
+    Latency    12.56ms   54.38ms 951.98ms   98.91%
+    Req/Sec     4.01k     1.42k   11.10k    63.21%
+  1916781 requests in 1.00m, 424.09MB read
   Socket errors: connect 355, read 0, write 0, timeout 0
-Requests/sec:  34330.61
-Transfer/sec:      6.74MB
+Requests/sec:  31891.52
+Transfer/sec:      7.06MB
 ```
-
     
 ### 实现说明
     1. 核心词典匹配字典树，借助[abelzhou/php-trie-tree](https://packagist.org/packages/abelzhou/php-trie-tree)实现。
