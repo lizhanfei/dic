@@ -12,7 +12,7 @@
         19款macos，8核心；框架开启8进程；qps可以接近7W/s
     
 ### 压测数据
-    程序宿主机：6C16G 普通pc机 
+    程序宿主机：6C16G 普通pc机  i5 8400
     网络：局域网
     worker num: 6
 command: wrk -t 8 -c 600 -d 30s -s dic_sentence_matych.lua  http://192.168.8.52:9501/dic/sentence/match
