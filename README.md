@@ -2,6 +2,8 @@
 # 高性能词语匹配和词语联想
 [![Build Status](https://travis-ci.com/lizhanfei/dic.svg?branch=master)](https://travis-ci.com/lizhanfei/dic)
 [![codecov](https://codecov.io/gh/lizhanfei/dic/branch/master/graph/badge.svg)](https://codecov.io/gh/lizhanfei/dic)
+<a href="https://github.com/swoole/swoole-src"><img src="https://img.shields.io/badge/swoole-%3E=4.4-brightgreen.svg?maxAge=2592000" alt="Swoole Version"></a>
+ <a href="https://secure.php.net/"><img src="https://img.shields.io/badge/php-%3E=7.2-brightgreen.svg?maxAge=2592000" alt="Php Version"></a>
 ### 应用场景
     1. 可以输入的句子中是否存下词库中的词，可以用于敏感词、优质词匹配
     2. 可以通过输入的词语查找所有词库中相关的词，可以用于关键词联想
