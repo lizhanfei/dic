@@ -59,7 +59,7 @@ class AfterWorkStartListener implements ListenerInterface
         //注册定时器，每隔一段时间更新内存词典数据
         $timeTick = $this->applicationConfig->get("release_dic_time");
         $timeTick = intval($timeTick);
-        $timeTick <= 0 && $timeTick = 600000;//默认十分钟
+        $timeTick <= 0 && $timeTick = 1200000;//默认十分钟
         $timeId = Timer::tick($timeTick, function () use ($event) {
             $this->logger->info("worker{{$event->workerId}}词典更新开始");
             $this->dicService->releaseDb2Dic();

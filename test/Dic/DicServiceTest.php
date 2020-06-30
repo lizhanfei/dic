@@ -47,13 +47,18 @@ class DicServiceTest extends HttpTestCase
     {
         $container = Mockery::mock(Container::class);
 
+        $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $logerFactory = $this->createMock(\Hyperf\Logger\LoggerFactory::class);
+        $logerFactory->method('get')->willReturn($logger);
         $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
         $wordDaoStub->method('list')->will($this->returnCallback([$this, 'getWord']));
+        $wordDaoStub->method('count')->willReturn(1);
+
         $wordStorage = new \App\Util\Dic\WordMemory();
 
         $container->shouldReceive('get')
             ->with(\App\Service\Dic\DicServiceImplV1::class)
-            ->andReturn(new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub));
+            ->andReturn(new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub, $logerFactory));
 
         $container->shouldReceive('get')
             ->with(\App\Service\Sentence\SentenceServiceImplV1::class)
@@ -97,13 +102,19 @@ class DicServiceTest extends HttpTestCase
 
     public function testDicRelease()
     {
+        $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $logerFactory = $this->createMock(\Hyperf\Logger\LoggerFactory::class);
+        $logerFactory->method('get')->willReturn($logger);
+
         $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
         $wordDaoStub->method('list')->will($this->returnCallback([$this, 'getWord']));
+        $wordDaoStub->method('count')->willReturn(1);
+
         $wordStorage = new \App\Util\Dic\WordMemory();
 
         $sentence = new \App\Service\Sentence\SentenceServiceImplV1($wordStorage);
         $wordService = new \App\Service\Word\WordServiceImplV1($wordStorage);
-        $dic = new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub);
+        $dic = new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub, $logerFactory);
         //第一次数据录入
         $this->assertEquals(true, $dic->db2Dic());
 
@@ -120,10 +131,14 @@ class DicServiceTest extends HttpTestCase
         $find = $wordService->find('东',  'zg', 'main');
         $this->assertArraySubset($find, [],true);
 
+        $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $logerFactory = $this->createMock(\Hyperf\Logger\LoggerFactory::class);
+        $logerFactory->method('get')->willReturn($logger);
+
         //覆盖索引
         $wordDaoStub = $this->createMock(\App\Dao\Word\WordDao::class);
         $wordDaoStub->method('list')->will($this->returnCallback([$this, 'getWordAgain']));
-        $dic = new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub);
+        $dic = new \App\Service\Dic\DicServiceImplV1($wordStorage, $wordDaoStub, $logerFactory);
         $dic->releaseDb2Dic();
 
         $match = $sentence->match('顺义是北京的一个地区', 'zg', 'main');
