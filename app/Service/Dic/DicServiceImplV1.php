@@ -48,28 +48,15 @@ class DicServiceImplV1 implements DicService
         $maxPage = ceil($count / $pageNum);
         $this->logger->debug("one page cost:". $maxPage);
 
-        $parallel = new Parallel(10);
         while ($page <= $maxPage) {
-            $parallel->add(function () use ($page, $pageNum) {
-                $wordModelList = $this->wordDao->list([], ($page - 1) * $pageNum, $pageNum);
-                if (0 != count($wordModelList)) {
-                    //循环将词写入dic
-                    foreach ($wordModelList as $oneWord) {
-                        $this->wordStorage->add($oneWord['word'], WordType::getType($oneWord['from_system'], $oneWord['type']));
-                    }
+            $wordModelList = $this->wordDao->list([], ($page - 1) * $pageNum, $pageNum);
+            if (0 != count($wordModelList)) {
+                //循环将词写入dic
+                foreach ($wordModelList as $oneWord) {
+                    $this->wordStorage->add($oneWord['word'], WordType::getType($oneWord['from_system'], $oneWord['type']));
                 }
-            });
+            }
             $page++;
-        }
-
-        try{
-            $parallel->wait();
-        } catch(ParallelExecutionException $e){
-            $msg = "初始化内存词典失败,msg:{$e->getMessage()}; ";
-            $msg .= "file:{$e->getFile()}; ";
-            $msg .= "line:{$e->getLine()}; ";
-
-            $this->logger->error($msg);
         }
         return true;
     }
