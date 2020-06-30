@@ -49,7 +49,7 @@ class DicServiceImplV1 implements DicService
         $this->logger->debug("one page cost:". $maxPage);
 
         $parallel = new Parallel(10);
-        while ($page < $maxPage) {
+        while ($page <= $maxPage) {
             $parallel->add(function () use ($page, $pageNum) {
                 $wordModelList = $this->wordDao->list([], ($page - 1) * $pageNum, $pageNum);
                 if (0 != count($wordModelList)) {
