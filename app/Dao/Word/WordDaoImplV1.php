@@ -31,4 +31,9 @@ class WordDaoImplV1 implements WordDao
         }
         return $wordModelList->toArray();
     }
+
+    public function count(array $where = [])
+    {
+        return Word::where($where)->count();
+    }
 }

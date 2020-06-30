@@ -15,4 +15,6 @@ interface WordDao
     public function delOne(Word $word): bool;
 
     public function list(array $where, int $offset, int $limit): array;
+
+    public function count(array $where = []);
 }
